@@ -13,12 +13,8 @@ import static by.spaces.calculator.calculations.ExtractLibClass.extractLibrary;
 @SpringBootApplication
 public class Main {
     public static void main(String[] args)  {
-        try {
-            System.load(extractLibrary("Converter"));
-            System.load(extractLibrary("Matrix"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        System.load("/app/native/Converter.dll");
+        System.load("/app/native/Converter.dll");
         SpringApplication.run(Main.class, args);
     }
 
