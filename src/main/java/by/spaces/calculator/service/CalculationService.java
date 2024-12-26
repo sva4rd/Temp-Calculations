@@ -1,7 +1,5 @@
 package by.spaces.calculator.service;
 
-import by.spaces.calculator.calculations.Converter;
-import by.spaces.calculator.calculations.Matrix;
 import by.spaces.calculator.calculations.PrimeNumbersCount;
 import by.spaces.calculator.calculations.interfaces.ConverterBase;
 import by.spaces.calculator.calculations.interfaces.MatrixBase;
@@ -16,10 +14,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class CalculationService {
     private ConverterBase getConverter(String lib){
-        if (lib == null || lib.isEmpty() || lib.equalsIgnoreCase("cpp"))
-            return new Converter();
-        else
-            return new ConverterJ();
+        return new ConverterJ();
     }
 
     public String convertNumber(String number, int sourceBase, int targetBase, String lib) {
@@ -59,17 +54,11 @@ public class CalculationService {
     }
 
     private MatrixBase getMatrix(String lib, String data){
-        if (lib == null || lib.isEmpty() || lib.equalsIgnoreCase("cpp"))
-            return new Matrix(data);
-        else
-            return new MatrixJ(data);
+        return new MatrixJ(data);
     }
 
     private MatrixBase getMatrix(String lib, double[][] data){
-        if (lib == null || lib.isEmpty() || lib.equalsIgnoreCase("cpp"))
-            return new Matrix(data);
-        else
-            return new MatrixJ(data);
+        return new MatrixJ(data);
     }
 
     private MatrixBase createMatrix(Object matrixData, String lib) {
