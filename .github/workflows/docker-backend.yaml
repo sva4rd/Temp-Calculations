@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - development
+      - hci_prod
 
 jobs:
   build:
