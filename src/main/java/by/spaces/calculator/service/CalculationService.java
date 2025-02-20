@@ -1,5 +1,7 @@
 package by.spaces.calculator.service;
 
+import by.spaces.calculator.calculations.Converter;
+import by.spaces.calculator.calculations.Matrix;
 import by.spaces.calculator.calculations.PrimeNumbersCount;
 import by.spaces.calculator.calculations.interfaces.ConverterBase;
 import by.spaces.calculator.calculations.interfaces.MatrixBase;
@@ -13,10 +15,6 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class CalculationService {
-    private ConverterBase getConverter(String lib){
-        return new ConverterJ();
-    }
-
     public String convertNumber(String number, int sourceBase, int targetBase, String lib) {
         if (sourceBase != 2 && sourceBase != 8 && sourceBase != 10 && sourceBase != 16)
             throw new IllegalArgumentException("Wrong sourceBase");
@@ -53,12 +51,28 @@ public class CalculationService {
         }
     }
 
-    private MatrixBase getMatrix(String lib, String data){
-        return new MatrixJ(data);
+    private boolean isCppLibrary(String lib) {
+        if (lib == null || lib.isEmpty()) {
+            throw new IllegalArgumentException("Library type cannot be null or empty");
+        }
+        if (lib.equalsIgnoreCase("cpp")) {
+            return true;
+        } else if (lib.equalsIgnoreCase("java")) {
+            return false;
+        }
+        throw new IllegalArgumentException("Unsupported library type: " + lib);
     }
 
-    private MatrixBase getMatrix(String lib, double[][] data){
-        return new MatrixJ(data);
+    private ConverterBase getConverter(String lib) {
+        return isCppLibrary(lib) ? new Converter() : new ConverterJ();
+    }
+
+    private MatrixBase getMatrix(String lib, String data) {
+        return isCppLibrary(lib) ? new Matrix(data) : new MatrixJ(data);
+    }
+
+    private MatrixBase getMatrix(String lib, double[][] data) {
+        return isCppLibrary(lib) ? new Matrix(data) : new MatrixJ(data);
     }
 
     private MatrixBase createMatrix(Object matrixData, String lib) {
