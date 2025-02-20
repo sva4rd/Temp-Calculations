@@ -35,7 +35,6 @@ public class SecurityConfig {
             "/signin",
             "/primes",
             "/converter",
-            "/matrix/**",
             "/ws/**"
     };
 
